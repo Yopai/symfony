@@ -12,6 +12,7 @@
 namespace Symfony\Component\Form\Tests\Util;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\ErrorHandler\Error\FatalError;
 use Symfony\Component\Form\Util\StringUtil;
 
 class StringUtilTest extends TestCase
@@ -32,6 +33,9 @@ class StringUtilTest extends TestCase
         // H: hex string, high nibble first (UCS-2BE)
         // *: repeat until end of string
         $binary = pack('H*', $hex);
+        if ($binary === false) {
+            throw new FatalError('There was an error with pack');
+        }
 
         // Convert UCS-2BE to UTF-8
         $symbol = mb_convert_encoding($binary, 'UTF-8', 'UCS-2BE');
