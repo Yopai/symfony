@@ -226,23 +226,23 @@ class CliDumper extends AbstractDumper
                 $this->line .= '"';
             }
 
-            foreach ($str as $str) {
+            foreach ($str as $string) {
                 if ($i < $m) {
-                    $str .= "\n";
+                    $string .= "\n";
                 }
-                if (0 < $this->maxStringWidth && $this->maxStringWidth < $len = mb_strlen($str, 'UTF-8')) {
-                    $str = mb_substr($str, 0, $this->maxStringWidth, 'UTF-8');
+                if (0 < $this->maxStringWidth && $this->maxStringWidth < $len = mb_strlen($string, 'UTF-8')) {
+                    $str = mb_substr($string, 0, $this->maxStringWidth, 'UTF-8');
                     $lineCut = $len - $this->maxStringWidth;
                 }
                 if ($m && 0 < $cursor->depth) {
                     $this->line .= $this->indentPad;
                 }
-                if ('' !== $str) {
-                    $this->line .= $this->style('str', $str, $attr);
+                if ('' !== $string) {
+                    $this->line .= $this->style('str', $string, $attr);
                 }
                 if ($i++ == $m) {
                     if ($m) {
-                        if ('' !== $str) {
+                        if ('' !== $string) {
                             $this->dumpLine($cursor->depth);
                             if (0 < $cursor->depth) {
                                 $this->line .= $this->indentPad;
