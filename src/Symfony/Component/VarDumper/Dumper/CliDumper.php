@@ -185,6 +185,11 @@ class CliDumper extends AbstractDumper
      */
     public function dumpString(Cursor $cursor, $str, $bin, $cut)
     {
+        if (!is_string($str)) {
+            trigger_deprecation('symfony/console', '4.4', '%s argument must be a string', __METHOD__);
+            $str = '';
+        }
+
         $this->dumpKey($cursor);
         $attr = $cursor->attr;
 

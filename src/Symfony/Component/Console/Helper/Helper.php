@@ -47,6 +47,10 @@ abstract class Helper implements HelperInterface
      */
     public static function strlen($string)
     {
+        if (!is_string($string)) {
+            trigger_deprecation('symfony/console', '4.4', '%s argument must be a string', __METHOD__);
+            return 0;
+        }
         if (false === $encoding = mb_detect_encoding($string, null, true)) {
             return \strlen($string);
         }
@@ -65,6 +69,11 @@ abstract class Helper implements HelperInterface
      */
     public static function substr($string, $from, $length = null)
     {
+        if (!is_string($string)) {
+            trigger_deprecation('symfony/console', '4.4', '%s : %s argument must be a string', __METHOD__, 'string');
+            $string = '';
+        }
+
         if (false === $encoding = mb_detect_encoding($string, null, true)) {
             return substr($string, $from, $length);
         }

@@ -54,7 +54,12 @@ class CurrencyDataProvider
             $displayLocale = \Locale::getDefault();
         }
 
-        return $this->reader->readEntry($this->path, $displayLocale, ['Names', $currency, static::INDEX_SYMBOL]);
+        $result = $this->reader->readEntry($this->path, $displayLocale, ['Names', $currency, static::INDEX_SYMBOL]);
+        if (!\is_string($result)) {
+            trigger_deprecation('symfony/console', '4.4', '%s : result must be a string', __METHOD__);
+            $result = '';
+        }
+        return $result;
     }
 
     public function getName($currency, $displayLocale = null)

@@ -42,6 +42,11 @@ class IcuResFileDumper extends FileDumper
         $keyTop = $this->getPosition($data);
 
         foreach ($messages->all($domain) as $source => $target) {
+            if (!is_string($target)) {
+                trigger_deprecation('symfony/console', '4.4', '%s : "target" must be a string', __METHOD__);
+                $target = '';
+            }
+
             $resources .= pack('V', $this->getPosition($data));
 
             $data .= pack('V', \strlen($target))

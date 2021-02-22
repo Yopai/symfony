@@ -43,7 +43,12 @@ final class EmailHtmlBodyContains extends Constraint
             throw new \LogicException('Unable to test a message HTML body on a RawMessage or Message instance.');
         }
 
-        return false !== mb_strpos($message->getHtmlBody(), $this->expectedText);
+        $body = $message->getHtmlBody();
+        if ( ! is_string($body)) {
+            trigger_deprecation('symfony/console', '4.4', '%s : Message body must be a string', __METHOD__);
+            $body = '';
+        }
+        return false !== mb_strpos($body, $this->expectedText);
     }
 
     /**

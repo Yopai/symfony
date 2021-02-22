@@ -155,6 +155,11 @@ class BinaryFileResponse extends Response
      */
     public function setContentDisposition($disposition, $filename = '', $filenameFallback = '')
     {
+        if (!is_string($filename)) {
+            trigger_deprecation('symfony/console', '4.4', '%s : %s argument must be a string', __METHOD__, 'filename');
+            $filename = '';
+        }
+
         if ('' === $filename) {
             $filename = $this->file->getFilename();
         }

@@ -512,9 +512,14 @@ class Table
             }
         }
 
-        // str_pad won't work properly with multi-byte strings, we need to fix the padding
-        if (false !== $encoding = mb_detect_encoding($cell, null, true)) {
-            $width += \strlen($cell) - mb_strwidth($cell, $encoding);
+        if (!is_string($cell)) {
+            trigger_deprecation('symfony/console', '4.4', '%s : variable "cell" must be a string', __METHOD__);
+        }
+        else {
+            // str_pad won't work properly with multi-byte strings, we need to fix the padding
+            if (false !== $encoding = mb_detect_encoding($cell, null, true)) {
+                $width += \strlen($cell) - mb_strwidth($cell, $encoding);
+            }
         }
 
         $style = $this->getColumnStyle($column);
